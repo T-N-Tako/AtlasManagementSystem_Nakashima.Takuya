@@ -16,7 +16,9 @@ class DatabaseSeeder extends Seeder
     {
         // Register your seeders here
         $this->call([
-
+            // 追記
+            UsersTableSeeder::class,
+            SubjectsTableSeeder::class,
         ]);
     }
 }

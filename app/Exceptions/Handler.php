@@ -50,6 +50,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+
+        // 追記
+        // 認証エラーの場合、ログイン画面にリダイレクト
+        if ($exception instanceof AuthenticationException) {
+            return redirect()->guest(route('loginView'));
+        }
+
         return parent::render($request, $exception);
     }
 }
