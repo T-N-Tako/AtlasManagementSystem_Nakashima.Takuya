@@ -20,7 +20,7 @@ class Subjects extends Model
     {
         return $this->belongsToMany(
             User::class,        // 対象モデル
-            'subject_user',     // 中間テーブル
+            'subject_users',     // 中間テーブル
             'subject_id',       // 自分のID
             'user_id'           // 関連するユーザーのID
         )->withTimestamps(); // リレーションの定義

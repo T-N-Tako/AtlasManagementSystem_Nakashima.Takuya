@@ -2,10 +2,13 @@
 
 namespace App\Models\Users;
 
+
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Users\Subjects;
+
 
 use App\Models\Posts\Like;
 use Auth;
@@ -74,8 +77,8 @@ class User extends Authenticatable
     public function subjects()
     {
         return $this->belongsToMany(
-            Subject::class,     // 対象モデル
-            'subject_user',     // 中間テーブル
+            Subjects::class,     // 対象モデル
+            'subject_users',     // 中間テーブル
             'user_id',          // 自分のID
             'subject_id'        // 関連する科目のID
         )->withTimestamps(); // リレーションの定義

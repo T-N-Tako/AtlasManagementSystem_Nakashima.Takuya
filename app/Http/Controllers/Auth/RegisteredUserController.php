@@ -146,16 +146,26 @@ class RegisteredUserController extends Controller
                 'role' => $request->role,
                 'password' => bcrypt($request->password)
             ]);
-            if ($request->role == 4) {
+
+
+            if ($request->role == 4 && is_array($subjects)) {
                 $user = User::findOrFail($user_get->id);
                 $user->subjects()->attach($subjects);
             }
+            // if ($request->role == 4) {
+            //     $user = User::findOrFail($user_get->id);
+            //     $user->subjects()->attach($subjects);
+            // }
+
+
+
             DB::commit();
             // 登録成功後のリダイレクト
             return redirect()->route('loginView')->with('success', '登録が完了しました。ログインしてください。');
         } catch (\Exception $e) {
             // ロールバック（エラー時）
             DB::rollback();
+            dd($e->getMessage());
             return redirect()->route('loginView');
         }
     }
