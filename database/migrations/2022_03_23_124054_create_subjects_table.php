@@ -15,7 +15,7 @@ class CreateSubjectsTable extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('subject_name', 60)->comment('科目名');
+            $table->string('subject', 60)->comment('科目名');
             $table->timestamps(); // ← これがないと created_at と updated_at が追加されない
             // $table->timestamp('created_at')->nullable()->comment('登録日時');
             // $table->timestamp('updated_at')->nullable()->comment('更新日時'); // 追加するなら必要

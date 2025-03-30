@@ -15,7 +15,14 @@ class Subjects extends Model
         'subject'
     ];
 
-    public function users(){
-        return;// リレーションの定義
+    // 科目を受講しているユーザー（追記）
+    public function users()
+    {
+        return $this->belongsToMany(
+            User::class,        // 対象モデル
+            'subject_user',     // 中間テーブル
+            'subject_id',       // 自分のID
+            'user_id'           // 関連するユーザーのID
+        )->withTimestamps(); // リレーションの定義
     }
 }

@@ -98,4 +98,10 @@ $(function () {
     }
   });
 
-})
+
+  // //フォーム送信直前にボタンを強制的に有効化
+  // $('form').on('submit', function () {
+  //   $('.register_btn').prop('disabled', false);
+  // });
+
+});
