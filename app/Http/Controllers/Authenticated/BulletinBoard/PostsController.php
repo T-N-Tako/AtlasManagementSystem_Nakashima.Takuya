@@ -56,10 +56,27 @@ class PostsController extends Controller
 
     public function postCreate(PostFormRequest $request)
     {
+        // 追記
+        $request->validate([
+            'post_category_id' => 'required|exists:sub_categories,id',
+            'post_title' => 'required|string|max:100',
+            'post_body' => 'required|string|max:2000',
+        ], [
+            'post_category_id.required' => 'カテゴリーは必須項目です。',
+            'post_category_id.exists' => '選択されたカテゴリーが無効です。',
+            'post_title.required' => 'タイトルは必須です。',
+            'post_title.string' => 'タイトルは文字列で入力してください。',
+            'post_title.max' => 'タイトルは100文字以内で入力してください。',
+            'post_body.required' => '投稿内容は必須です。',
+            'post_body.string' => '投稿内容は文字列で入力してください。',
+            'post_body.max' => '投稿内容は2000文字以内で入力してください。',
+        ]);
+
         $post = Post::create([
             'user_id' => Auth::id(),
             'post_title' => $request->post_title,
-            'post' => $request->post_body
+            'post_category_id' => $request->post_category_id,
+            'post' => $request->post_body,
         ]);
         return redirect()->route('post.show');
     }
