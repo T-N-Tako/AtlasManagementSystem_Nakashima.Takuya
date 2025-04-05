@@ -45,7 +45,7 @@ class RegisteredUserController extends Controller
                 'under_name_kana' => $request->under_name_kana,
                 'mail_address' => $request->mail_address,
                 'sex' => $request->sex,
-                'birth_day' => $birth_day,
+                'birth_day' => $request->birth_day,
                 'role' => $request->role,
                 'password' => bcrypt($request->password)
             ]);
