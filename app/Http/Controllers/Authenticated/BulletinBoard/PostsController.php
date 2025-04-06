@@ -50,8 +50,6 @@ class PostsController extends Controller
         // 追記
         $main_categories = MainCategory::with('subCategories')->get();
         return view('authenticated.bulletinboard.post_create', compact('main_categories'));
-        // $main_categories = MainCategory::get();
-        // return view('authenticated.bulletinboard.post_create', compact('main_categories'));
     }
 
     public function postCreate(PostFormRequest $request)
@@ -81,6 +79,8 @@ class PostsController extends Controller
         return redirect()->route('post.show');
     }
 
+
+
     public function postEdit(Request $request)
     {
         Post::where('id', $request->post_id)->update([
@@ -95,11 +95,54 @@ class PostsController extends Controller
         Post::findOrFail($id)->delete();
         return redirect()->route('post.show');
     }
+
     public function mainCategoryCreate(Request $request)
     {
+        // 追記
+        $request->validate([
+            'main_category_name' => [
+                'required',
+                'string',
+                'max:100',
+                'unique:main_categories,main_category'
+            ],
+        ], [
+            'main_category_name.required' => 'メインカテゴリー名は必須です。',
+            'main_category_name.string' => 'メインカテゴリー名は文字列で入力してください。',
+            'main_category_name.max' => 'メインカテゴリー名は100文字以内で入力してください。',
+            'main_category_name.unique' => 'このメインカテゴリーはすでに存在します。',
+        ]);
+
         MainCategory::create(['main_category' => $request->main_category_name]);
         return redirect()->route('post.input');
     }
+
+    // 追記
+    public function subCategoryCreate(Request $request)
+    {
+        $request->validate([
+            'main_category_id' => 'required|integer|exists:main_categories,id',
+            'sub_category_name' => 'required|string|max:100|unique:sub_categories,sub_category'
+        ], [
+            // main_category_idのエラーメッセージ
+            'main_category_id.required' => 'メインカテゴリーは必須です。',
+            'main_category_id.integer' => 'メインカテゴリーの形式が不正です。',
+            'main_category_id.exists' => '選択されたメインカテゴリーは存在しません。',
+            // sub_category_nameのエラーメッセージ
+            'sub_category_name.required' => 'サブカテゴリー名は必須です。',
+            'sub_category_name.string' => 'サブカテゴリー名は文字列で入力してください。',
+            'sub_category_name.max' => 'サブカテゴリー名は100文字以内で入力してください。',
+            'sub_category_name.unique' => 'このサブカテゴリー名はすでに登録されています。',
+        ]);
+
+        SubCategory::create([
+            'main_category_id' => $request->main_category_id,
+            'sub_category' => $request->sub_category_name
+        ]);
+
+        return redirect()->route('post.input')->with('success', 'サブカテゴリーを追加しました');
+    }
+
 
     public function commentCreate(Request $request)
     {
