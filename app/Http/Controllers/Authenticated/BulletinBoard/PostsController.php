@@ -13,6 +13,8 @@ use App\Models\Users\User;
 use App\Http\Requests\BulletinBoard\PostFormRequest;
 use Auth;
 
+use Illuminate\Support\Facades\DB;
+
 class PostsController extends Controller
 {
     public function show(Request $request)
@@ -70,13 +72,33 @@ class PostsController extends Controller
             'post_body.max' => '投稿内容は2000文字以内で入力してください。',
         ]);
 
-        $post = Post::create([
-            'user_id' => Auth::id(),
-            'post_title' => $request->post_title,
-            'post_category_id' => $request->post_category_id,
-            'post' => $request->post_body,
-        ]);
-        return redirect()->route('post.show');
+        DB::beginTransaction();
+        try {
+            // 投稿作成
+            $post = Post::create([
+                'user_id' => Auth::id(),
+                'post_title' => $request->post_title,
+                'post' => $request->post_body,
+            ]);
+
+            // 中間テーブルにサブカテゴリーとの関係を登録（追記部分）
+            $post->subCategories()->attach($request->post_category_id);
+
+            DB::commit();
+            return redirect()->route('post.show')->with('success', '投稿が完了しました。');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->withErrors(['error' => '投稿の登録に失敗しました。'])->withInput();
+        }
+
+
+        // $post = Post::create([
+        //     'user_id' => Auth::id(),
+        //     'post_title' => $request->post_title,
+        //     'post_category_id' => $request->post_category_id,
+        //     'post' => $request->post_body,
+        // ]);
+        // return redirect()->route('post.show');
     }
 
 
