@@ -41,23 +41,26 @@
         <input type="submit" name="my_posts" class="category_btn" value="自分の投稿" form="postSearchRequest">
         <ul>
           @foreach($categories as $category)
-          <li class="main_categories" category_id="{{ $category->id }}"><span>{{ $category->main_category }}<span>
+          <li class="main_categories" category_id="{{ $category->id }}">
+            <div class="d-flex justify-content-between" align-items-center">
+              <span>{{ $category->main_category }}<span>
+                  <span class="arrow-toggle down"></span> {{-- CSSで矢印を表示 --}}
+            </div>
+            {{-- サブカテゴリー表示（追記） --}}
+            @if($category->subCategories && $category->subCategories->isNotEmpty())
+            <ul class="pl-3 category_num{{ $category->id }}" style="display: none;">
+              @foreach($category->subCategories as $sub)
+              <li class="sub_category_item" sub_category_id="{{ $sub->id }}">
+                {{-- サブカテゴリー名クリックでリンク --}}
+                <a href="{{ route('post.show', ['sub_category_id' => $sub->id]) }}">
+                  {{ $sub->sub_category }}
+                </a>
 
-                {{-- サブカテゴリー表示（追記） --}}
-                @if($category->subCategories && $category->subCategories->isNotEmpty())
-                <ul class="pl-3">
-                  @foreach($category->subCategories as $sub)
-                  <li class="sub_category_item" sub_category_id="{{ $sub->id }}">
-                    {{-- サブカテゴリー名クリックでリンク --}}
-                    <a href="{{ route('post.show', ['sub_category_id' => $sub->id]) }}">
-                      {{ $sub->sub_category }}
-                    </a>
-
-                    <!-- <span>{{ $sub->sub_category }}</span> -->
-                  </li>
-                  @endforeach
-                </ul>
-                @endif
+                <!-- <span>{{ $sub->sub_category }}</span> -->
+              </li>
+              @endforeach
+            </ul>
+            @endif
 
           </li>
           @endforeach

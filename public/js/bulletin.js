@@ -2,6 +2,9 @@ $(function () {
   $('.main_categories').click(function () {
     var category_id = $(this).attr('category_id');
     $('.category_num' + category_id).slideToggle();
+
+    // 矢印を回転（CSSクラスの切り替え）・追記
+    $(this).find('.arrow-toggle').toggleClass('down');
   });
 
   $(document).on('click', '.like_btn', function (e) {
