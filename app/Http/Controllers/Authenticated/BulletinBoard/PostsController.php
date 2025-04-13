@@ -20,22 +20,45 @@ class PostsController extends Controller
     public function show(Request $request)
     {
         $posts = Post::with('user', 'postComments', 'subCategories')->get();
-        $categories = MainCategory::get();
+        $categories = MainCategory::with('subCategories')->get();
         $like = new Like;
         $post_comment = new Post;
         if (!empty($request->keyword)) {
-            $posts = Post::with('user', 'postComments')
-                ->where('post_title', 'like', '%' . $request->keyword . '%')
-                ->orWhere('post', 'like', '%' . $request->keyword . '%')->get();
+            // 変更
+            $keyword = $request->keyword;
+
+            $posts = Post::with('user', 'postComments', 'subCategories') // 必要な関連モデルも一緒に取得
+                ->where(function ($query) use ($keyword) {
+                    // 複数条件をグループ化して where 句で処理
+                    $query->where('post_title', 'like', '%' . $keyword . '%') // タイトルの部分一致
+                        ->orWhere('post', 'like', '%' . $keyword . '%')     // 本文の部分一致
+                        ->orWhereHas('subCategories', function ($q) use ($keyword) {
+                            // サブカテゴリーの完全一致（関連テーブルを検索）
+                            $q->where('sub_category', $keyword);
+                        });
+                })
+                ->get(); // 該当する投稿を取得
+            // $posts = Post::with('user', 'postComments', 'subCategories')
+            //     ->where('post_title', 'like', '%' . $request->keyword . '%')
+            //     ->orWhere('post', 'like', '%' . $request->keyword . '%')->get();
         } else if ($request->category_word) {
             $sub_category = $request->category_word;
-            $posts = Post::with('user', 'postComments')->get();
+            $posts = Post::with('user', 'postComments', 'subCategories')->get();
+
+            // 追記
+        } else if ($request->sub_category_id) {
+            $posts = Post::whereHas('subCategories', function ($query) use ($request) {
+                $query->where('sub_categories.id', $request->sub_category_id);
+            })
+                ->with('user', 'postComments', 'subCategories')
+                ->get();
+            // ここまで
         } else if ($request->like_posts) {
             $likes = Auth::user()->likePostId()->get('like_post_id');
-            $posts = Post::with('user', 'postComments')
+            $posts = Post::with('user', 'postComments', 'subCategories')
                 ->whereIn('id', $likes)->get();
         } else if ($request->my_posts) {
-            $posts = Post::with('user', 'postComments')
+            $posts = Post::with('user', 'postComments', 'subCategories')
                 ->where('user_id', Auth::id())->get();
         }
         return view('authenticated.bulletinboard.posts', compact('posts', 'categories', 'like', 'post_comment'));

@@ -41,7 +41,25 @@
         <input type="submit" name="my_posts" class="category_btn" value="自分の投稿" form="postSearchRequest">
         <ul>
           @foreach($categories as $category)
-          <li class="main_categories" category_id="{{ $category->id }}"><span>{{ $category->main_category }}<span></li>
+          <li class="main_categories" category_id="{{ $category->id }}"><span>{{ $category->main_category }}<span>
+
+                {{-- サブカテゴリー表示（追記） --}}
+                @if($category->subCategories && $category->subCategories->isNotEmpty())
+                <ul class="pl-3">
+                  @foreach($category->subCategories as $sub)
+                  <li class="sub_category_item" sub_category_id="{{ $sub->id }}">
+                    {{-- サブカテゴリー名クリックでリンク --}}
+                    <a href="{{ route('post.show', ['sub_category_id' => $sub->id]) }}">
+                      {{ $sub->sub_category }}
+                    </a>
+
+                    <!-- <span>{{ $sub->sub_category }}</span> -->
+                  </li>
+                  @endforeach
+                </ul>
+                @endif
+
+          </li>
           @endforeach
         </ul>
       </div>
