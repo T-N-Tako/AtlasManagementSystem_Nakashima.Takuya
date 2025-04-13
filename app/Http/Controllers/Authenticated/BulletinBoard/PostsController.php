@@ -43,7 +43,7 @@ class PostsController extends Controller
 
     public function postDetail($post_id)
     {
-        $post = Post::with('user', 'postComments')->findOrFail($post_id);
+        $post = Post::with('user', 'postComments', 'subCategories')->findOrFail($post_id);
         return view('authenticated.bulletinboard.post_detail', compact('post'));
     }
 
@@ -105,6 +105,21 @@ class PostsController extends Controller
 
     public function postEdit(Request $request)
     {
+        //バリデーションを最初に追加
+        $request->validate([
+            'post_title' => ['required', 'string', 'max:100'],
+            'post_body'  => ['required', 'string', 'max:2000'],
+        ], [
+            'post_title.required' => 'タイトルは必須です。',
+            'post_title.string'   => 'タイトルは文字列で入力してください。',
+            'post_title.max'      => 'タイトルは100文字以内で入力してください。',
+
+            'post_body.required' => '投稿内容は必須です。',
+            'post_body.string'   => '投稿内容は文字列で入力してください。',
+            'post_body.max'      => '投稿内容は2000文字以内で入力してください。',
+        ]);
+
+
         Post::where('id', $request->post_id)->update([
             'post_title' => $request->post_title,
             'post' => $request->post_body,
@@ -115,7 +130,7 @@ class PostsController extends Controller
     public function postDelete($id)
     {
         Post::findOrFail($id)->delete();
-        return redirect()->route('post.show');
+        return redirect()->route('post.show')->with('success', '投稿を削除しました。');
     }
 
     public function mainCategoryCreate(Request $request)
@@ -168,6 +183,15 @@ class PostsController extends Controller
 
     public function commentCreate(Request $request)
     {
+        //バリデーションを追加
+        $request->validate([
+            'comment' => ['required', 'string', 'max:250'],
+        ], [
+            'comment.required' => 'コメントは必須です。',
+            'comment.string' => 'コメントは文字列で入力してください。',
+            'comment.max' => 'コメントは250文字以内で入力してください。',
+        ]);
+
         PostComment::create([
             'post_id' => $request->post_id,
             'user_id' => Auth::id(),
