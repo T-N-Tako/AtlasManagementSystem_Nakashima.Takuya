@@ -15,7 +15,14 @@ class ReserveSettings extends Model
         'limit_users',
     ];
 
-    public function users(){
+    // // ✅ ここを追記します
+    // protected $casts = [
+    //     'setting_reserve' => 'date:Y-m-d',
+    // ];
+
+
+    public function users()
+    {
         return $this->belongsToMany('App\Models\Users\User', 'reserve_setting_users', 'reserve_setting_id', 'user_id')->withPivot('reserve_setting_id', 'id');
     }
 }

@@ -70,7 +70,12 @@ class User extends Authenticatable
 
     public function reserveSettings()
     {
-        return $this->belongsToMany('App\Models\Calendars\ReserveSettings', 'reserve_setting_users', 'user_id', 'reserve_setting_id')->withPivot('id');
+        return $this->belongsToMany(
+            'App\Models\Calendars\ReserveSettings',     // 対象モデル（予約設定）
+            'reserve_setting_users',                    // 中間テーブル
+            'user_id',                                  // 中間テーブル内での「自分のid」
+            'reserve_setting_id'                        // 中間テーブル内での「相手のid」
+        )->withPivot('id');                             // 中間テーブルの追加情報も取得可能
     }
 
     // ユーザーが受講している科目（追記）
