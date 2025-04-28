@@ -31,7 +31,7 @@
           @if($post->subCategories && $post->subCategories->isNotEmpty())
           <div class="mt-2">
             @foreach($post->subCategories as $subCategory)
-            <span class="badge badge-secondary">{{ $subCategory->sub_category }}</span>
+            <span class="sub_categories">{{ $subCategory->sub_category }}</span>
             @endforeach
           </div>
           @endif
@@ -71,7 +71,9 @@
           <p class="m-0">コメントする</p>
           <textarea class="w-100" name="comment" form="commentRequest"></textarea>
           <input type="hidden" name="post_id" form="commentRequest" value="{{ $post->id }}">
-          <input type="submit" class="btn btn-primary" form="commentRequest" value="投稿">
+          <div class="mt-3 text-right">
+            <input type="submit" class="btn btn-primary" value="投稿" form="commentRequest">
+          </div>
           <form action="{{ route('comment.create') }}" method="post" id="commentRequest">{{ csrf_field() }}</form>
         </div>
       </div>

@@ -22,18 +22,18 @@
 <body class="all_content">
     <div class="d-flex">
         <div class="sidebar">
-            <p><a href="{{ route('top.show') }}">トップ</a></p>
-            <p><a href="/logout">ログアウト</a></p>
-            <p><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}">スクール予約</a></p>
+            <p><a href="{{ route('top.show') }}"><img src="{{ asset('image/ホームのフリーアイコン素材.png') }}" alt="マイページのアイコン" style="width: 25px; height: 25px;">マイページ</a></p>
+            <p><a href="/logout"><img src="{{ asset('image/ログアウト・サインアウトのアイコン素材 1.png') }}" alt="ログアウトのアイコン" style="width: 25px; height: 25px;">ログアウト</a></p>
+            <p><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}"><img src="{{ asset('image/メモパッド系のアイコン素材.png') }}" alt="スクール予約のアイコン" style="width: 25px; height: 25px;">スクール予約</a></p>
 
             <!-- 追記 -->
             @if(Auth::user()->role !== 4)
-            <p><a href="{{ route('calendar.admin.show',['user_id' => Auth::id()]) }}">スクール予約確認</a></p>
-            <p><a href="{{ route('calendar.admin.setting',['user_id' => Auth::id()]) }}">スクール枠登録</a></p>
+            <p><a href="{{ route('calendar.admin.show',['user_id' => Auth::id()]) }}"><img src="{{ asset('image/カレンダーアイコン8.png') }}" alt="スクール予約確認のアイコン" style="width: 25px; height: 25px;">スクール予約確認</a></p>
+            <p><a href="{{ route('calendar.admin.setting',['user_id' => Auth::id()]) }}"><img src="{{ asset('image/署名アイコン.png') }}" alt="スクール枠登録のアイコン" style="width: 25px; height: 25px;">スクール枠登録</a></p>
             @endif
 
-            <p><a href="{{ route('post.show') }}">掲示板</a></p>
-            <p><a href="{{ route('user.show') }}">ユーザー検索</a></p>
+            <p><a href="{{ route('post.show') }}"><img src="{{ asset('image/無料のコメントアイコン素材.png') }}" alt="掲示板のアイコン" style="width: 25px; height: 25px;">掲示板</a></p>
+            <p><a href="{{ route('user.show') }}"><img src="{{ asset('image/SNS人物アイコン 2.png') }}" alt="ユーザー検索のアイコン" style="width: 25px; height: 25px;">ユーザー検索</a></p>
         </div>
         <div class="main-container">
             {{ $slot }}

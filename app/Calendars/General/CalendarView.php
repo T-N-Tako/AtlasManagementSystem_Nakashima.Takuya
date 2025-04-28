@@ -26,13 +26,13 @@ class CalendarView
     $html[] = '<table class="table">';
     $html[] = '<thead>';
     $html[] = '<tr>';
-    $html[] = '<th>月</th>';
-    $html[] = '<th>火</th>';
-    $html[] = '<th>水</th>';
-    $html[] = '<th>木</th>';
-    $html[] = '<th>金</th>';
-    $html[] = '<th>土</th>';
-    $html[] = '<th>日</th>';
+    $html[] = '<th class="border">月</th>';
+    $html[] = '<th class="border">火</th>';
+    $html[] = '<th class="border">水</th>';
+    $html[] = '<th class="border">木</th>';
+    $html[] = '<th class="border">金</th>';
+    $html[] = '<th class="border day-sat">土</th>';
+    $html[] = '<th class="border day-sun">日</th>';
     $html[] = '</tr>';
     $html[] = '</thead>';
     $html[] = '<tbody>';
@@ -46,7 +46,7 @@ class CalendarView
         $ymd = $day->everyDay();
         // 空白マス処理（日付がない枠）
         if (!$ymd) {
-          $html[] = '<td class="calendar-td ' . $day->getClassName() . '" style="background-color:#d3d3d3;"></td>';
+          $html[] = '<td class="calendar-td ' . $day->getClassName() . ' border" style="background-color:#d3d3d3;"></td>';
           continue;
         }
 
@@ -55,13 +55,27 @@ class CalendarView
 
         // 背景色つきTD
         if ($isPast) {
-          $html[] = '<td class="calendar-td" style="background-color:#e5e5e5;">';
+          $html[] = '<td class="calendar-td border" style="background-color:#eeeeee;">';
         } else {
-          $html[] = '<td class="calendar-td ' . $day->getClassName() . '">';
+          $html[] = '<td class="calendar-td ' . $day->getClassName() . ' border">';
         }
 
         // 日付数字
-        $html[] = $day->render();
+        // $html[] = $day->render();
+
+        // 空白マス処理後
+        $dayOfWeek = \Carbon\Carbon::parse($ymd)->dayOfWeek;
+
+        // 背景色つきTDの後
+        if ($dayOfWeek == 0) {
+          $html[] = '<span class="day-sun">' . \Carbon\Carbon::parse($ymd)->day . '日</span>';
+        } elseif ($dayOfWeek == 6) {
+          $html[] = '<span class="day-sat">' . \Carbon\Carbon::parse($ymd)->day . '日</span>';
+        } else {
+          $html[] = '<span>' . \Carbon\Carbon::parse($ymd)->day . '日</span>';
+        }
+
+
 
         // 中身表示ロジック
         if ($isPast) {

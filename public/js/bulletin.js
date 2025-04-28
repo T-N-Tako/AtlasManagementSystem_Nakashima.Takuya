@@ -4,13 +4,15 @@ $(function () {
     $('.category_num' + category_id).slideToggle();
 
     // 矢印を回転（CSSクラスの切り替え）・追記
-    $(this).find('.arrow-toggle').toggleClass('down');
+    $(this).children('.arrow-icon').toggleClass('rotate');
   });
 
   $(document).on('click', '.like_btn', function (e) {
     e.preventDefault();
-    $(this).addClass('un_like_btn');
-    $(this).removeClass('like_btn');
+
+    $(this).removeClass('like_btn far').addClass('un_like_btn fas');
+    // $(this).addClass('un_like_btn');
+    // $(this).removeClass('like_btn');
     var post_id = $(this).attr('post_id');
     var count = $('.like_counts' + post_id).text();
     var countInt = Number(count);
@@ -31,8 +33,10 @@ $(function () {
 
   $(document).on('click', '.un_like_btn', function (e) {
     e.preventDefault();
-    $(this).removeClass('un_like_btn');
-    $(this).addClass('like_btn');
+
+    $(this).removeClass('un_like_btn fas').addClass('like_btn far');
+    // $(this).removeClass('un_like_btn');
+    // $(this).addClass('like_btn');
     var post_id = $(this).attr('post_id');
     var count = $('.like_counts' + post_id).text();
     var countInt = Number(count);
@@ -66,4 +70,24 @@ $(function () {
     return false;
   });
 
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const mainCategories = document.querySelectorAll(".main_category");
+
+  mainCategories.forEach(category => {
+      category.addEventListener("click", function() {
+          const subCategoryList = category.querySelector(".sub_category_list");
+          const arrowIcon = category.querySelector(".arrow-icon");
+
+          if (subCategoryList) {
+              // サブカテゴリーの表示・非表示を切り替え
+              subCategoryList.style.display = subCategoryList.style.display === "none" ? "block" : "none";
+
+              // 矢印アイコンの回転を切り替え
+              arrowIcon.classList.toggle("rotate");
+          }
+      });
+  });
 });

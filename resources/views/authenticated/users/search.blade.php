@@ -1,22 +1,24 @@
 <x-sidebar>
-  <p>ユーザー検索</p>
-  <div class="search_content w-100 border d-flex">
+  <!-- <p>ユーザー検索</p> -->
+  <div class="search_content w-100 d-flex">
     <div class="reserve_users_area">
       @foreach($users as $user)
       <div class="border one_person">
         <div>
           <span>ID : </span><span>{{ $user->id }}</span>
         </div>
-        <div><span>名前 : </span>
-          <a href="{{ route('user.profile', ['id' => $user->id]) }}">
-            <span>{{ $user->over_name }}</span>
-            <span>{{ $user->under_name }}</span>
-          </a>
-        </div>
-        <div>
-          <span>カナ : </span>
-          <span>({{ $user->over_name_kana }}</span>
-          <span>{{ $user->under_name_kana }})</span>
+        <div class="names">
+          <div><span>名前 : </span>
+            <a href="{{ route('user.profile', ['id' => $user->id]) }}">
+              <span>{{ $user->over_name }}</span>
+              <span>{{ $user->under_name }}</span>
+            </a>
+          </div>
+          <div>
+            <span>カナ : </span>
+            <span>({{ $user->over_name_kana }}</span>
+            <span>{{ $user->under_name_kana }})</span>
+          </div>
         </div>
         <div>
           @if($user->sex == 1)
@@ -27,7 +29,7 @@
           <span>性別 : </span><span>その他</span>
           @endif
         </div>
-        <div>
+        <div class="birth_day">
           <span>生年月日 : </span><span>{{ $user->birth_day }}</span>
         </div>
         <div>
@@ -58,39 +60,24 @@
           @endif
         </div>
 
-
-        <!-- @if($user->role == 4 && $user->subjects->isNotEmpty())
-        <div>
-          <span>選択科目 : </span>
-          @foreach($user->subjects as $subject)
-          <span>{{ $subject->subject }}</span>{{ !$loop->last ? '、' : '' }}
-          @endforeach
-        </div>
-        @endif -->
-
-        <!-- <div>
-          @if($user->role == 4)
-          <span>選択科目 :</span>
-          @endif
-        </div> -->
-
       </div>
       @endforeach
     </div>
-    <div class="search_area w-25 border">
+    <div class="search_area ">
       <div class="">
+        <p class="search">検索</p>
         <div>
           <input type="text" class="free_word" name="keyword" placeholder="キーワードを検索" form="userSearchRequest">
         </div>
-        <div>
-          <lavel>カテゴリ</lavel>
+        <div class="search-condition-wrapper">
+          <label class="search-condition">カテゴリ</label>
           <select form="userSearchRequest" name="category">
             <option value="name">名前</option>
             <option value="id">社員ID</option>
           </select>
         </div>
-        <div>
-          <label>並び替え</label>
+        <div class="search-condition-wrapper">
+          <label class="search-condition">並び替え</label>
           <select name="updown" form="userSearchRequest">
             <option value="ASC">昇順</option>
             <option value="DESC">降順</option>
@@ -98,18 +85,18 @@
         </div>
         <div class="">
           <p class="m-0 search_conditions" style="cursor: pointer;">
-            <span>検索条件の追加</span>
-            <span class="arrow-toggle down"></span>
+            <span class="search-addition">検索条件の追加</span>
+            <i class="arrow-icon fas fa-chevron-down"></i>
           </p>
           <div class="search_conditions_inner" style="display: none;">
-            <div>
-              <label>性別</label>
+            <div class="search-gender">
+              <label class="search-condition">性別</label>
               <span>男</span><input type="radio" name="sex" value="1" form="userSearchRequest">
               <span>女</span><input type="radio" name="sex" value="2" form="userSearchRequest">
               <span>その他</span><input type="radio" name="sex" value="3" form="userSearchRequest">
             </div>
             <div>
-              <label>権限</label>
+              <label class="search-condition">権限</label>
               <select name="role" form="userSearchRequest" class="engineer">
                 <option selected disabled>----</option>
                 <option value="1">教師(国語)</option>
@@ -119,19 +106,19 @@
               </select>
             </div>
             <div class="selected_engineer">
-              <label>選択科目</label>
-
-              @foreach($subjects as $subject)
-              <div class="">
-                <label>{{ $subject->subject }}</label>
-                <input type="checkbox" name="subject[]" value="{{ $subject->id }}" form="userSearchRequest">
+              <label class="search-condition">選択科目</label>
+              <div class="subject-list">
+                @foreach($subjects as $subject)
+                <div class="subject-item">
+                  <label>{{ $subject->subject }} <input type="checkbox" name="subject[]" value="{{ $subject->id }}" form="userSearchRequest"></label>
+                </div>
+                @endforeach
               </div>
-              @endforeach
             </div>
           </div>
         </div>
-        <div>
-          <input type="submit" name="search_btn" value="検索" form="userSearchRequest">
+        <div class="search-btn-wrapper">
+          <input type="submit" name="search_btn" class="search-btn" value="検索" form="userSearchRequest">
         </div>
         <div>
           <input type="reset" value="リセット" form="userSearchRequest">
