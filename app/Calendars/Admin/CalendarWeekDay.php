@@ -21,6 +21,16 @@ class CalendarWeekDay
 
   function render()
   {
+    // 追記
+    $dayOfWeek = $this->carbon->dayOfWeek; // 0 = 日曜, 6 = 土曜
+    $class = '';
+
+    if ($dayOfWeek == 0) {
+      $class = 'day-sun';
+    } elseif ($dayOfWeek == 6) {
+      $class = 'day-sat';
+    }
+
     return '<p class="day">' . $this->carbon->format("j") . '日</p>';
   }
 

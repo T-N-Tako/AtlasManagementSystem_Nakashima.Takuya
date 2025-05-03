@@ -94,7 +94,7 @@ label[for="birth_day"] {
 /* サイドバー */
 .sidebar {
 	/* width: 200px; */
-	width: 14%;
+	width: 18%;
 	height: 100vh;
 	padding: 20px;
 	background-color: #03aad2;
@@ -495,7 +495,7 @@ label[for="birth_day"] {
 }
 
 .one_person {
-	width: 215px;
+	width: 190px;
 	height: 230px;
 	margin: 15px 10px;
 	padding: 15px;
@@ -693,4 +693,60 @@ input[type="reset"] {
 	/* width: auto; */
 
 	gap: 5px;
+}
+
+
+/* カレンダーの土曜日（日付部分）を青に */
+.calendar-td .day-sat {
+	color: blue;
+}
+
+/* カレンダーの日曜日（日付部分）を赤に */
+.calendar-td .day-sun {
+	color: red;
+}
+
+
+/* 予約詳細ページ */
+.custom-container {
+	width: 120%;
+	/* width: 80%; */
+	max-width: 1000px;
+	height: auto;
+	/* margin: auto; */
+	/* margin-left: 10%; */
+	padding: 15px;
+	border-radius: 8px;
+	background-color: #f8f9fa;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-table-container {
+	border-radius: 5px;
+}
+
+.custom-table {
+	width: 100%;
+	margin-bottom: 0;
+	border-collapse: collapse;
+}
+
+.custom-table th {
+	padding: 10px;
+	color: white;
+	background-color: #03aad2;
+	font-weight: bold;
+}
+.custom-table td {
+	background-color: #a5d9f2;
+}
+
+.custom-table tr:nth-child(even) td {
+	background-color: #f8f9fa;
+}
+
+.custom-container-wrapper {
+	margin-right: auto;
+	/* margin-left: 200px; */
+	margin-left: auto;
 }

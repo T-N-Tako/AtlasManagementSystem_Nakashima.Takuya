@@ -31,8 +31,8 @@ class CalendarSettingView
     $html[] = '<th class="border">水</th>';
     $html[] = '<th class="border">木</th>';
     $html[] = '<th class="border">金</th>';
-    $html[] = '<th class="border">土</th>';
-    $html[] = '<th class="border">日</th>';
+    $html[] = '<th class="border day-sat">土</th>';
+    $html[] = '<th class="border day-sun">日</th>';
     $html[] = '</tr>';
     $html[] = '</thead>';
     $html[] = '<tbody>';
@@ -50,7 +50,26 @@ class CalendarSettingView
         } else {
           $html[] = '<td class="border ' . $day->getClassName() . '">';
         }
-        $html[] = $day->render();
+        // $html[] = $day->render();
+
+
+        // 土日で日付の色を変える
+        if ($day->everyDay()) {
+          $dayOfWeek = \Carbon\Carbon::parse($day->everyDay())->dayOfWeek;
+          $dayNumber = \Carbon\Carbon::parse($day->everyDay())->day;
+
+          if ($dayOfWeek == 0) { // 日曜
+            $html[] = '<div class="day-sun">' . $dayNumber . '日</div>';
+          } elseif ($dayOfWeek == 6) { // 土曜
+            $html[] = '<div class="day-sat">' . $dayNumber . '日</div>';
+          } else { // 平日
+            $html[] = '<div>' . $dayNumber . '日</div>';
+          }
+        }
+
+
+
+
         $html[] = '<div class="adjust-area">';
         if ($day->everyDay()) {
           if ($startDay <= $day->everyDay() && $toDay >= $day->everyDay()) {

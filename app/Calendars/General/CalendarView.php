@@ -68,11 +68,11 @@ class CalendarView
 
         // 背景色つきTDの後
         if ($dayOfWeek == 0) {
-          $html[] = '<span class="day-sun">' . \Carbon\Carbon::parse($ymd)->day . '日</span>';
+          $html[] = '<div class="day-sun">' . \Carbon\Carbon::parse($ymd)->day . '日</div>';
         } elseif ($dayOfWeek == 6) {
-          $html[] = '<span class="day-sat">' . \Carbon\Carbon::parse($ymd)->day . '日</span>';
+          $html[] = '<div class="day-sat">' . \Carbon\Carbon::parse($ymd)->day . '日</div>';
         } else {
-          $html[] = '<span>' . \Carbon\Carbon::parse($ymd)->day . '日</span>';
+          $html[] = '<div>' . \Carbon\Carbon::parse($ymd)->day . '日</div>';
         }
 
 
@@ -80,9 +80,9 @@ class CalendarView
         // 中身表示ロジック
         if ($isPast) {
           if ($reserve) {
-            $html[] = '<span class="">' . $reserve->setting_part . '部参加</span>';
+            $html[] = '<div class="">' . $reserve->setting_part . '部参加</div>';
           } else {
-            $html[] = '<span class="">受付終了</span>';
+            $html[] = '<div class="">受付終了</div>';
           }
           $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
         } else {

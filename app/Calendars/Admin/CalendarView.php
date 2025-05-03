@@ -50,7 +50,25 @@ class CalendarView
         } else {
           $html[] = '<td class="border ' . $day->getClassName() . '">';
         }
-        $html[] = $day->render();
+        // $html[] = $day->render();
+
+
+
+
+        // 土日で日付の色を変える
+        if ($day->everyDay()) {
+          $dayOfWeek = \Carbon\Carbon::parse($day->everyDay())->dayOfWeek;
+          $dayNumber = \Carbon\Carbon::parse($day->everyDay())->day;
+
+          if ($dayOfWeek == 0) { // 日曜
+            $html[] = '<div class="day-sun">' . $dayNumber . '日</div>';
+          } elseif ($dayOfWeek == 6) { // 土曜
+            $html[] = '<div class="day-sat">' . $dayNumber . '日</div>';
+          } else { // 平日
+            $html[] = '<div>' . $dayNumber . '日</div>';
+          }
+        }
+
         $html[] = $day->dayPartCounts($day->everyDay());
         $html[] = '</td>';
       }
