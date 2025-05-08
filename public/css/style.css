@@ -17,11 +17,27 @@ ul, li {
 
 
 /* ログイン */
-.login-content, .register-content {
+.login-content {
+	width: 28%;
+	padding: 0 30px;
 	border-radius: 10px;
 	background-color: #ffffff;
 	box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
+
+
+.register-content {
+	margin: 100px 0;
+	border-radius: 10px;
+	background-color: #ffffff;
+	box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+
+
+
+
+
 
 .text-center {
 	margin-bottom: 25px;
@@ -93,8 +109,8 @@ label[for="birth_day"] {
 
 /* サイドバー */
 .sidebar {
-	/* width: 200px; */
-	width: 18%;
+	position: fixed;
+	width: 12%;
 	height: 100vh;
 	padding: 20px;
 	background-color: #03aad2;
@@ -104,6 +120,7 @@ label[for="birth_day"] {
 
 .main-container {
 	width: 100%;
+	margin-left: 12%;
 }
 
 
