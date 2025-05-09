@@ -110,7 +110,7 @@ label[for="birth_day"] {
 /* サイドバー */
 .sidebar {
 	position: fixed;
-	width: 12%;
+	width: 16%;
 	height: 100vh;
 	padding: 20px;
 	background-color: #03aad2;
@@ -120,7 +120,7 @@ label[for="birth_day"] {
 
 .main-container {
 	width: 100%;
-	margin-left: 12%;
+	margin-left: 16%;
 }
 
 

@@ -1,5 +1,5 @@
 <x-sidebar>
-  <div class=" pt-5" style="background:#ECF1F6;">
+  <div class="pt-5 pb-5" style="background:#ECF1F6;">
     <div class="w-80 m-auto" style="border-radius:5px;">
       <div class="border w-75 m-auto pt-5 pb-5" style="border-radius:10px; background:#FFF; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
         <div class="w-80 m-auto" style="border-radius:5px;">
